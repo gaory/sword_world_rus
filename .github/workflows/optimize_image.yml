@@ -8,16 +8,22 @@ jobs:
   optimize-images:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: optimize
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Optimize images
         uses: calibreapp/image-actions@main
         with:
-          githubToken: ${{ secrets.GITHUB_TOKEN}}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
           ignorePaths: "content/img/avatar_index.gif,quartz/static/**"
           compressOnly: true
-      - name: "Commit & push"
-        uses: actions-js/push@master
+
+      - name: Commit & Push if changed
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
-          message: "[CI] Optimize images"
+          commit_message: "[CI] Optimize images"
+          branch: ${{ github.ref_name }}
+          commit_user_name: "GitHub Actions"
+          commit_user_email: "actions@users.noreply.github.com"
