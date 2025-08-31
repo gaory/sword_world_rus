@@ -19,6 +19,7 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           ignorePaths: "content/img/avatar_index.gif,quartz/static/**"
           compressOnly: true
+          skipInstalls: true
 
       - name: Commit & Push if changed
         uses: stefanzweifel/git-auto-commit-action@v4
